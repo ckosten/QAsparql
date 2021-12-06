@@ -1,7 +1,7 @@
 import json
 import requests, json, re, operator
 import sys
-from parser.lc_quad import LC_Qaud
+from parser.lc_quad import LC_Quad
 
 
 def prepare_dataset(ds):
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     with open("data/LC-QUAD/data.json", "w") as write_file:
         json.dump(data, write_file)
 
-    ds = LC_Qaud(path="./data/LC-QUAD/data.json")
+    ds = LC_Quad(path="./data/LC-QUAD/data.json")
     tmp = []
     for qapair in prepare_dataset(ds).qapairs:
         raw_row = dict()
@@ -64,7 +64,7 @@ if __name__ == "__main__":
 
         tmp.append(raw_row)
 
-    with open('data/LC-QUAD/linked_answer.json', 'w') as jsonFile:
+    with open('data/SPIDER/linked_answer.json', 'w') as jsonFile:
         json.dump(tmp, jsonFile)
 
     print('data len: ', len(tmp))

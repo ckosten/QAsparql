@@ -1,6 +1,7 @@
 from common.container.linkeditem import LinkedItem
 from common.utility.utility import find_mentions
 
+#this is the mapping for the entities and relations
 
 class GoldLinker:
     def __init__(self):
@@ -11,6 +12,7 @@ class GoldLinker:
         relations = []
         for u in qapair.sparql.uris:
             question = qapair.question.text
+            # start and end the index of where the mentioned entity appears in the uri
             mentions = find_mentions(question, [u])
             surface = ""
             if len(mentions) > 0:

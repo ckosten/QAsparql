@@ -1,5 +1,5 @@
-from parser.lc_quad_linked import LC_Qaud_Linked
-from parser.lc_quad import LC_QaudParser
+from parser.lc_quad_linked import LC_Quad_Linked
+from parser.lc_quad import LC_QuadParser
 from common.container.sparql import SPARQL
 from common.container.answerset import AnswerSet
 from common.graph.graph import Graph
@@ -7,8 +7,8 @@ from common.utility.stats import Stats
 from common.query.querybuilder import QueryBuilder
 import common.utility.utility as utility
 from linker.goldLinker import GoldLinker
-from linker.earl import Earl
-from learning.classifier.svmclassifier import SVMClassifier
+#from linker.earl import Earl
+#from learning.classifier.svmclassifier import SVMClassifier
 import json
 import argparse
 import logging
@@ -30,6 +30,7 @@ def qg(linker, kb, parser, qapair, force_gold=True):
     h1_threshold = 9999999
 
     # Get Answer from KB online
+    #checks if the Answer in the Answerset is still true
     status, raw_answer_true = kb.query(qapair.sparql.query.replace("https", "http"))
     answerset_true = AnswerSet(raw_answer_true, parser.parse_queryresult)
     qapair.answerset = answerset_true
@@ -37,6 +38,7 @@ def qg(linker, kb, parser, qapair, force_gold=True):
     ask_query = "ASK " in qapair.sparql.query
     count_query = "COUNT(" in qapair.sparql.query
     sort_query = "order by" in qapair.sparql.raw_query.lower()
+    #entity linking
     entities, ontologies = linker.do(qapair, force_gold=force_gold)
 
     double_relation = False
@@ -84,6 +86,7 @@ def qg(linker, kb, parser, qapair, force_gold=True):
 
         output_where[idx]["target_var"] = target_var
         sparql = SPARQL(kb.sparql_query(where["where"], target_var, count_query, ask_query), ds.parser.parse_sparql)
+        #here she checks if the answers from the query that she generated with the minimal subgraphs are equal to the original answers
         if (answerset == qapair.answerset) != (sparql == qapair.sparql):
             print("error")
 
@@ -118,7 +121,7 @@ if __name__ == "__main__":
     logger = logging.getLogger(__name__)
     utility.setup_logging()
 
-    ds = LC_Qaud_Linked(path="./data/LC-QUAD/linked_answer.json")
+    ds = LC_Quad_Linked(path="./data/LC-QUAD/linked_answer.json")
     ds.load()
     ds.parse()
 
@@ -126,7 +129,7 @@ if __name__ == "__main__":
         logger.error("Server is not available. Please check the endpoint at: {}".format(ds.parser.kb.endpoint))
         sys.exit(0)
 
-    parser = LC_QaudParser()
+    parser = LC_QuadParser()
     kb = parser.kb
 
     stats = Stats()

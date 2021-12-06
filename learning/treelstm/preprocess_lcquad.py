@@ -9,7 +9,7 @@ import spacy
 path = os.getcwd()
 sys.path.insert(0, path)
 from common.utility.utility import find_mentions
-from parser.lc_quad_linked import LC_Qaud_LinkedParser
+from parser.lc_quad_linked import LC_Quad_LinkedParser
 # sys.path.append('/cluster/home/xlig/kg/')
 # sys.path.insert(0, '/cluster/home/xlig/kg/')
 
@@ -137,7 +137,7 @@ def generalize_question(a, b, parser=None):
     # replace entity mention in question with a generic symbol
 
     if parser is None:
-        parser = LC_Qaud_LinkedParser()
+        parser = LC_Quad_LinkedParser()
 
     _, _, uris = parser.parse_sparql(b)
     uris = [uri for uri in uris if uri.is_entity()]
@@ -238,7 +238,7 @@ if __name__ == '__main__':
     json.dump(ds[train_size:train_size + dev_size], open(trail_filepath, "w"))
     json.dump(ds[train_size + dev_size:], open(test_filepath, "w"))
 
-    parser = LC_Qaud_LinkedParser()
+    parser = LC_Quad_LinkedParser()
 
     print('Split train set')
     save_split(train_dir, *split(train_filepath, parser))

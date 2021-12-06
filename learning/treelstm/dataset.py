@@ -61,23 +61,26 @@ class QGDataset(data.Dataset):
                 idx = i
                 prev = None
                 while True:
-                    parent = parents[idx - 1]
-                    if parent == -1:
-                        break
-                    tree = Tree()
-                    if prev is not None:
-                        tree.add_child(prev)
-                    trees[idx - 1] = tree
-                    tree.idx = idx - 1
-                    if parent - 1 in trees.keys():
-                        trees[parent - 1].add_child(tree)
-                        break
-                    elif parent == 0:
-                        root = tree
-                        break
-                    else:
-                        prev = tree
-                        idx = parent
+                    try:
+                        parent = parents[idx - 1]
+                        if parent == -1:
+                            break
+                        tree = Tree()
+                        if prev is not None:
+                            tree.add_child(prev)
+                        trees[idx - 1] = tree
+                        tree.idx = idx - 1
+                        if parent - 1 in trees.keys():
+                            trees[parent - 1].add_child(tree)
+                            break
+                        elif parent == 0:
+                            root = tree
+                            break
+                        else:
+                            prev = tree
+                            idx = parent
+                    except Exception as e:
+                        print(e)
         return root
 
     def read_labels(self, filename):

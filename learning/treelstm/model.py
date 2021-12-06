@@ -70,7 +70,8 @@ class DASimilarity(nn.Module):
 
         vec_dist = F.dropout(vec_dist, p=0.2, training=self.training)
         out = F.sigmoid(self.wh(vec_dist))
-        out = F.log_softmax(self.wp(out))
+        #not sure about the dim size for matrices 1 else 0
+        out = F.log_softmax(self.wp(out), dim=1)
         return out
 
 

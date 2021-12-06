@@ -16,7 +16,7 @@ from nltk.stem.porter import *
 stemmer = PorterStemmer()
 p = inflect.engine()
 tagme.GCUBE_TOKEN = ""
-from parser.lc_quad_linked import LC_Qaud_Linked
+from parser.lc_quad_linked import LC_Quad_Linked
 
 
 def sort_dict_by_values(dictionary):

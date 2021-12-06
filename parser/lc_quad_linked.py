@@ -7,17 +7,17 @@ from kb.dbpedia import DBpedia
 from parser.answerparser import AnswerParser
 
 
-class LC_Qaud_Linked:
+class LC_Quad_Linked:
     def __init__(self, path="./data/LC-QUAD/linked.json"):
         self.raw_data = []
         self.qapairs = []
         self.path = path
-        self.parser = LC_Qaud_LinkedParser()
+        self.parser = LC_Quad_LinkedParser()
 
     def load(self):
         with open(self.path) as data_file:
             self.raw_data = json.load(data_file)
-
+#here is where the AnswerSet is coming from
     def parse(self):
         for raw_row in self.raw_data:
             self.qapairs.append(
@@ -30,9 +30,9 @@ class LC_Qaud_Linked:
             print("")
 
 
-class LC_Qaud_LinkedParser(AnswerParser):
+class LC_Quad_LinkedParser(AnswerParser):
     def __init__(self):
-        super(LC_Qaud_LinkedParser, self).__init__(DBpedia(one_hop_bloom_file="./data/blooms/spo1.bloom"))
+        super(LC_Quad_LinkedParser, self).__init__(DBpedia(one_hop_bloom_file="./data/blooms/spo1.bloom"))
 
     def parse_question(self, raw_question):
         return raw_question

@@ -26,11 +26,11 @@ from metrics import Metrics
 # UTILITY FUNCTIONS
 from utils import load_word_vectors, build_vocab
 # CONFIG PARSER
-from learning.treelstm.config import parse_args
+from learning.treelstm.spider_config import parse_args
 # TRAIN AND TEST HELPER FUNCTIONS
 from trainer import Trainer
 import datetime
-from fastText import load_model
+from fasttext import load_model
 
 
 def main():
@@ -56,7 +56,7 @@ def main():
         logger.error('Sparsity and weight decay are incompatible, pick one!')
         exit()
     logger.debug(args)
-    args.data = 'learning/treelstm/data/lc_quad/'
+    args.data = 'learning/treelstm/data/spider/'
     args.save = 'learning/treelstm/checkpoints/'
     torch.manual_seed(args.seed)
     random.seed(args.seed)
@@ -146,7 +146,7 @@ def main():
     else:
         EMBEDDING_DIM = 300
         emb = torch.zeros(vocab.size(), EMBEDDING_DIM, dtype=torch.float)
-        fasttext_model = load_model("data/fasttext/wiki.en.bin")
+        fasttext_model = load_model("/Users/kost/PycharmProjects/QAsparql/learning/treelstm/data/fasttext/wiki.en/wiki.en.bin")
         print('Use Fasttext Embedding')
         for word in vocab.labelToIdx.keys():
             word_vector = fasttext_model.get_word_vector(word)
